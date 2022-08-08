@@ -1,7 +1,8 @@
 //import logo from './logo.svg';
 import './App.css';
 import React from 'react';
-import UserList from './components/users.js'
+import UserList from './components/users.js';
+import axios from 'axios';
 
 class App extends React.Component {
     constructor(props) {
@@ -12,19 +13,15 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        const users = [
-            {
-                'username': 'KonTroAl',
-                'first_name': 'Konstantin',
-                'last_name': 'Troshenkin',
-                'email': 'kostya98295@mail.ru'
-            }
-        ]
-        this.setState(
-            {
-                'users': users
-            }
-        )
+        axios.get('http://127.0.0.1:8000/api/users/')
+            .then(response => {
+                const users = response.data
+                    this.setState(
+                        {
+                            'users': users
+                        }
+                    )
+            }).catch(error => console.log(error))
     }
 
     render () {
