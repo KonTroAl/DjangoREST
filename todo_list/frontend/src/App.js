@@ -29,9 +29,7 @@ class App extends React.Component {
 
     render () {
         return (
-            <div class='container'>
-                <UserList users={this.state.users} />
-            </div>
+            <UserList users={this.state.users} />
         )
     }
 
