@@ -28,9 +28,11 @@ class App extends React.Component {
 
     render () {
         return (
-            <div class='container'>
-                <Menu/>
-                <UserList users={this.state.users} />
+            <div class='container wrapper'>
+                <div class='content'>
+                    <Menu/>
+                    <UserList users={this.state.users} />
+                </div>
                 <Footer/>
             </div>
         )

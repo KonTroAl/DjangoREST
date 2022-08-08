@@ -12,10 +12,18 @@ code {
     monospace;
 }
 
+.border {
+    border: none; /* Убираем границу */
+    background-color: red; /* Цвет линии */
+    color: red; /* Цвет линии для IE6-7 */
+    height: 2px; /* Толщина линии */
+}
+
 .user_headers {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+    font-weight: bold;
 
 }
 
@@ -30,6 +38,28 @@ code {
     justify-content: space-between;
 }
 
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%
+}
+
+.main {
+    flex: 1 0 auto;
+}
+
 .menu {
     margin-bottom: 20px;
+}
+
+.footer {
+    flex: 0 0 auto;
+}
+
+.footer_items {
+    display: flex;
+}
+
+.footer_item {
+    margin-right: 10px;
 }

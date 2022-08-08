@@ -21,7 +21,7 @@ const UserItem = ({user}) => {
 
 const UserList = ({users}) => {
     return (
-        <div>
+        <div class='main'>
             <div class='user_headers'>
                 <div>
                     Username
