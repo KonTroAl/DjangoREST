@@ -37,4 +37,4 @@ const UserList = ({users}) => {
     )
 }
 
-export default UserList
+export default UserList;
