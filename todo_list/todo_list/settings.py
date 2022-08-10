@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # custom apps
     'rest_framework',
     'usersapp',
+    'todoapp',
     'corsheaders',
 ]
 
