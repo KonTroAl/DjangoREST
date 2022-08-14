@@ -28,3 +28,4 @@ class ToDoModelViewSet(ModelViewSet):
     queryset = ToDo.objects.all()
     serializer_class = ToDoModelSerializer
     pagination_class = ToDoLimitOffsetPagination
+    filterset_fields = ['project']
