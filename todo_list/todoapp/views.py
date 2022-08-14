@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.pagination import LimitOffsetPagination
 from .models import Project, ToDo
-from .serializers import ProjectHyperlinkedModelSerializer, ToDoModelSerializer
+from .serializers import ProjectModelSerializer, ToDoModelSerializer
 
 
 # Create your views here.
@@ -13,9 +13,16 @@ class ProjectLimitOffsetPagination(LimitOffsetPagination):
 
 
 class ProjectModelViewSet(ModelViewSet):
-    queryset = Project.objects.all()
-    serializer_class = ProjectHyperlinkedModelSerializer
+    serializer_class = ProjectModelSerializer
     pagination_class = ProjectLimitOffsetPagination
+
+    def get_queryset(self):
+        project_name = self.request.query_params.get('project_name', '')
+        projects = Project.objects.all()
+        if project_name:
+            projects = projects.filter(project_name__contains=project_name)
+        return projects
+
 
 
 # Model == To_Do
