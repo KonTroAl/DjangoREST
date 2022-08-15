@@ -1,6 +1,5 @@
 from django.shortcuts import render
-from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet, GenericViewSet
+from rest_framework.viewsets import GenericViewSet
 from .models import User
 from .serializers import UserModelSerializer
 from rest_framework import mixins
