@@ -1,10 +1,11 @@
-//import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 import UserList from './components/users.js';
 import Menu from './components/menu.js';
 import Footer from './components/footer.js';
 import axios from 'axios';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 class App extends React.Component {
     constructor(props) {
@@ -29,13 +30,19 @@ class App extends React.Component {
 
     render() {
         return (
-            <div class='container wrapper'>
-                <div class='content'>
-                    <Menu />
-                    <UserList users={this.state.users} />
+            <Router>
+                <div class='container wrapper'>
+                    <div class='content'>
+                        <Menu />
+                        <Routes>
+                            <Route path='users' element={<UserList users={this.state.users} />}>
+                            </Route>
+                        </Routes>
+                        {/* <UserList users={this.state.users} /> */}
+                    </div>
+                    <Footer />
                 </div>
-                <Footer />
-            </div>
+            </Router>
         )
     }
 
