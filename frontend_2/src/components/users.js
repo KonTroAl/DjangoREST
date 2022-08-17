@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UserItem = ({user}) => {
+const UserItem = ({ user }) => {
     return (
         <div class='user_item'>
             <div>
@@ -15,11 +15,11 @@ const UserItem = ({user}) => {
             <div>
                 {user.email}
             </div>
-          </div>
+        </div>
     )
 }
 
-const UserList = ({users}) => {
+const UserList = ({ users }) => {
     return (
         <div class='main'>
             <div class='user_headers'>
@@ -37,9 +37,10 @@ const UserList = ({users}) => {
                 </div>
             </div>
             <div class='user_list'>
-                {users.map((user) => <UserItem user={user} class='user_list' />)}
+                {users.map((user) => <UserItem user={user} />)}
             </div>
-        </div>
+
+        </div >
     )
 }
 
