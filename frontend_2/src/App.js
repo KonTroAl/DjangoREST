@@ -3,6 +3,7 @@ import './App.css';
 import React from 'react';
 import UserList from './components/users.js';
 import ProjectList from './components/projects';
+import ToDoList from './components/todos';
 import Menu from './components/menu.js';
 import Footer from './components/footer.js';
 import axios from 'axios';
@@ -14,6 +15,7 @@ class App extends React.Component {
         this.state = {
             'users': [],
             'projects': [],
+            'todos': []
         }
     }
 
@@ -37,6 +39,16 @@ class App extends React.Component {
                     }
                 )
             }).catch(error => console.log(error))
+
+        axios.get('http://127.0.0.1:8000/api/todo/')
+            .then(response => {
+                const todos = response.data.results
+                this.setState(
+                    {
+                        'todos': todos
+                    }
+                )
+            }).catch(error => console.log(error))
     }
 
     render() {
@@ -49,6 +61,8 @@ class App extends React.Component {
                             <Route path='/' element={<ProjectList projects={this.state.projects} />}>
                             </Route>
                             <Route path='users' element={<UserList users={this.state.users} />}>
+                            </Route>
+                            <Route path='todo' element={<ToDoList todos={this.state.todos} />}>
                             </Route>
                         </Routes>
                         {/* <UserList users={this.state.users} /> */}
