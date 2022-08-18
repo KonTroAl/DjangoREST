@@ -1,16 +1,21 @@
-//import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 import UserList from './components/users.js';
+import ProjectList from './components/projects';
+import ToDoList from './components/todos';
 import Menu from './components/menu.js';
 import Footer from './components/footer.js';
 import axios from 'axios';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            'users': []
+            'users': [],
+            'projects': [],
+            'todos': []
         }
     }
 
@@ -25,17 +30,48 @@ class App extends React.Component {
                 )
             }).catch(error => console.log(error))
 
+        axios.get('http://127.0.0.1:8000/api/projects/')
+            .then(response => {
+                const projects = response.data.results
+                this.setState(
+                    {
+                        'projects': projects
+                    }
+                )
+            }).catch(error => console.log(error))
+
+        axios.get('http://127.0.0.1:8000/api/todo/')
+            .then(response => {
+                const todos = response.data.results
+                this.setState(
+                    {
+                        'todos': todos
+                    }
+                )
+            }).catch(error => console.log(error))
     }
 
     render() {
         return (
-            <div class='container wrapper'>
-                <div class='content'>
-                    <Menu />
-                    <UserList users={this.state.users} />
+            <Router>
+                <div class='container wrapper'>
+                    <div class='content'>
+                        <Menu />
+                        <Routes>
+                            <Route path='/' element={<ProjectList projects={this.state.projects} />}>
+                                <Route path=':id' element={<ProjectList projects={this.state.projects} />}>
+                                </Route>
+                            </Route>
+                            <Route path='users' element={<UserList users={this.state.users} />}>
+                            </Route>
+                            <Route path='todo' element={<ToDoList todos={this.state.todos} />}>
+                            </Route>
+                        </Routes>
+                        {/* <UserList users={this.state.users} /> */}
+                    </div>
+                    <Footer />
                 </div>
-                <Footer />
-            </div>
+            </Router>
         )
     }
 
