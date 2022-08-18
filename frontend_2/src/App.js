@@ -59,6 +59,8 @@ class App extends React.Component {
                         <Menu />
                         <Routes>
                             <Route path='/' element={<ProjectList projects={this.state.projects} />}>
+                                <Route path=':id' element={<ProjectList projects={this.state.projects} />}>
+                                </Route>
                             </Route>
                             <Route path='users' element={<UserList users={this.state.users} />}>
                             </Route>
