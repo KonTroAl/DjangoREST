@@ -16,7 +16,8 @@ class App extends React.Component {
         this.state = {
             'users': [],
             'projects': [],
-            'todos': []
+            'todos': [],
+            'token': ''
         }
     }
 
@@ -53,8 +54,11 @@ class App extends React.Component {
 
     }
 
-    get_token() {
-
+    get_token(username, password) {
+        axios.post('http://127.0.0.1:8000/api-token-auth/', { username: username, password: password })
+            .then(response => {
+                console.log(response.data)
+            }).catch(error => console.log(error))
     }
 
     componentDidMount() {
@@ -76,7 +80,7 @@ class App extends React.Component {
                             </Route>
                             <Route path='todo' element={<ToDoList todos={this.state.todos} />}>
                             </Route>
-                            <Route path='login' element={<Auth />}></Route>
+                            <Route path='login' element={<Auth get_token={(username, password) => this.get_token(username, password)} />}></Route>
                         </Routes>
                     </div>
                     <Footer />
