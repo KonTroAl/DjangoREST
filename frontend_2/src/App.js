@@ -4,6 +4,7 @@ import React from 'react';
 import UserList from './components/users.js';
 import ProjectList from './components/projects';
 import ToDoList from './components/todos';
+import Auth from './components/auth';
 import Menu from './components/menu.js';
 import Footer from './components/footer.js';
 import axios from 'axios';
@@ -19,7 +20,7 @@ class App extends React.Component {
         }
     }
 
-    componentDidMount() {
+    load() {
         axios.get('http://127.0.0.1:8000/api/users/')
             .then(response => {
                 const users = response.data.results
@@ -49,6 +50,15 @@ class App extends React.Component {
                     }
                 )
             }).catch(error => console.log(error))
+
+    }
+
+    get_token() {
+
+    }
+
+    componentDidMount() {
+        this.load()
     }
 
     render() {
@@ -66,8 +76,8 @@ class App extends React.Component {
                             </Route>
                             <Route path='todo' element={<ToDoList todos={this.state.todos} />}>
                             </Route>
+                            <Route path='login' element={<Auth />}></Route>
                         </Routes>
-                        {/* <UserList users={this.state.users} /> */}
                     </div>
                     <Footer />
                 </div>

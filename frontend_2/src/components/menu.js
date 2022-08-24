@@ -25,6 +25,11 @@ export default function Menu() {
                   <p class="nav-link" href="#">ToDo List</p>
                 </Link>
               </li>
+              <li class="nav-item">
+                <Link to='/login'>
+                  <p class="nav-link" href="#">Login</p>
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
