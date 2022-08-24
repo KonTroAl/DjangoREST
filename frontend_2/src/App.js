@@ -9,6 +9,7 @@ import Menu from './components/menu.js';
 import Footer from './components/footer.js';
 import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 
 class App extends React.Component {
     constructor(props) {
@@ -21,8 +22,13 @@ class App extends React.Component {
         }
     }
 
-    load() {
-        axios.get('http://127.0.0.1:8000/api/users/')
+    logout() {
+        this.set_token('')
+    }
+
+    load_data() {
+        const headers = this.get_headers()
+        axios.get('http://127.0.0.1:8000/api/users/', { headers })
             .then(response => {
                 const users = response.data.results
                 this.setState(
@@ -32,7 +38,7 @@ class App extends React.Component {
                 )
             }).catch(error => console.log(error))
 
-        axios.get('http://127.0.0.1:8000/api/projects/')
+        axios.get('http://127.0.0.1:8000/api/projects/', { headers })
             .then(response => {
                 const projects = response.data.results
                 this.setState(
@@ -42,7 +48,7 @@ class App extends React.Component {
                 )
             }).catch(error => console.log(error))
 
-        axios.get('http://127.0.0.1:8000/api/todo/')
+        axios.get('http://127.0.0.1:8000/api/todo/', { headers })
             .then(response => {
                 const todos = response.data.results
                 this.setState(
@@ -54,15 +60,45 @@ class App extends React.Component {
 
     }
 
+    is_auth() {
+        return !!this.state.token
+    }
+
+    set_token(token) {
+        const cookies = new Cookies()
+        cookies.set('token', token)
+        this.setState({
+            'token': token
+        }, () => this.load_data())
+    }
+
+    get_token_from_storage() {
+        const cookies = new Cookies()
+        const token = cookies.get('token')
+        this.setState({
+            'token': token
+        }, () => this.load_data())
+    }
+
     get_token(username, password) {
         axios.post('http://127.0.0.1:8000/api-token-auth/', { username: username, password: password })
             .then(response => {
-                console.log(response.data)
+                this.set_token(response.data['token'])
             }).catch(error => console.log(error))
     }
 
+    get_headers() {
+        let headers = {
+            'Content-Type': 'application/json'
+        }
+        if (this.is_auth()) {
+            headers['Authorization'] = 'Token ' + this.state.token
+        }
+        return headers
+    }
+
     componentDidMount() {
-        this.load()
+        this.get_token_from_storage()
     }
 
     render() {
