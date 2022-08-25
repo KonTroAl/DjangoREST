@@ -18,7 +18,8 @@ class App extends React.Component {
             'users': [],
             'projects': [],
             'todos': [],
-            'token': ''
+            'token': '',
+            'auth_user' : '',
         }
     }
 
@@ -79,6 +80,9 @@ class App extends React.Component {
     get_token(username, password) {
         axios.post('http://127.0.0.1:8000/api-token-auth/', { username: username, password: password })
             .then(response => {
+                this.setState({
+                    'auth_user': username
+                })
                 this.set_token(response.data['token'])
             }).catch(error => console.log(error))
     }
@@ -95,6 +99,7 @@ class App extends React.Component {
 
     logout() {
         this.set_token('')
+        this.setState({'auth_user': ''})
     }
 
     componentDidMount() {
@@ -102,22 +107,31 @@ class App extends React.Component {
     }
 
     render() {
+        const user = this.state.auth_user;
+        console.log(user)
         return (
             <Router>
                 <div class='container wrapper'>
                     <div class='content'>
-                        <Menu />
-                        <ul class='navbar-nav'>
-                            <li class='nav-item'>
-                                {this.is_auth() ?
-                                    <button class="nav-link" onClick={() => this.logout()}>Logout</button>
-                                    :
-                                    <Link to='/login'>
-                                      <p class="nav-link" href="#">Login</p>
-                                    </Link>
-                                }
-                            </li>
-                        </ul>
+                        <div class='headers'>
+                            <Menu />
+                            <div class='profile navbar navbar-expand-lg bg-light'>
+                                <ul class='navbar-nav'>
+                                    <li class='nav-item'>
+                                        {this.is_auth() ?
+                                            <button class="nav-link logout_button" onClick={() => this.logout()}>Logout</button>
+                                            :
+                                            <Link to='/login'>
+                                              <p class="nav-link" href="#">Login</p>
+                                            </Link>
+                                        }
+                                    </li>
+                                    <li class='nav-item'>
+                                        <p>{user}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                         <Routes>
                             <Route path='/' element={<ProjectList projects={this.state.projects} />}>
                                 <Route path=':id' element={<ProjectList projects={this.state.projects} />}>
