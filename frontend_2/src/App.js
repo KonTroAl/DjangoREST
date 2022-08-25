@@ -8,7 +8,7 @@ import Auth from './components/auth';
 import Menu from './components/menu.js';
 import Footer from './components/footer.js';
 import axios from 'axios';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 
 class App extends React.Component {
@@ -20,10 +20,6 @@ class App extends React.Component {
             'todos': [],
             'token': ''
         }
-    }
-
-    logout() {
-        this.set_token('')
     }
 
     load_data() {
@@ -97,6 +93,10 @@ class App extends React.Component {
         return headers
     }
 
+    logout() {
+        this.set_token('')
+    }
+
     componentDidMount() {
         this.get_token_from_storage()
     }
@@ -107,6 +107,17 @@ class App extends React.Component {
                 <div class='container wrapper'>
                     <div class='content'>
                         <Menu />
+                        <ul class='navbar-nav'>
+                            <li class='nav-item'>
+                                {this.is_auth() ?
+                                    <button class="nav-link" onClick={() => this.logout()}>Logout</button>
+                                    :
+                                    <Link to='/login'>
+                                      <p class="nav-link" href="#">Login</p>
+                                    </Link>
+                                }
+                            </li>
+                        </ul>
                         <Routes>
                             <Route path='/' element={<ProjectList projects={this.state.projects} />}>
                                 <Route path=':id' element={<ProjectList projects={this.state.projects} />}>
@@ -117,6 +128,7 @@ class App extends React.Component {
                             <Route path='todo' element={<ToDoList todos={this.state.todos} />}>
                             </Route>
                             <Route path='login' element={<Auth get_token={(username, password) => this.get_token(username, password)} />}></Route>
+
                         </Routes>
                     </div>
                     <Footer />

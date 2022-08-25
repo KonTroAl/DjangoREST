@@ -2,9 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 class Menu extends React.Component {
-  constructor(props) {
-    super(props)
-  }
 
   render() {
     return (
@@ -30,13 +27,6 @@ class Menu extends React.Component {
                     <p class="nav-link" href="#">ToDo List</p>
                   </Link>
                 </li>
-                <li class="nav-item">
-                  {this.props.is_auth ? <button onClick={() => this.props.logout}> Logout </button> :
-                    <Link to='/login'>
-                      <p class="nav-link" href="#">Login</p>
-                    </Link>
-                  }
-                </li>
               </ul>
             </div>
           </div>
@@ -44,7 +34,6 @@ class Menu extends React.Component {
       </div>
     );
   }
-
 }
 
 export default Menu;
