@@ -3,7 +3,7 @@ from rest_framework.serializers import HyperlinkedModelSerializer, ModelSerializ
 from .models import Project, ToDo
 
 class ProjectModelSerializer(ModelSerializer):
-    users = HyperlinkedRelatedField(many=True, view_name='user-detail', read_only=True)
+    # users = HyperlinkedRelatedField(many=True, view_name='user-detail', read_only=True)
 
     class Meta:
         model = Project
