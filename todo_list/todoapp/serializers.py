@@ -1,7 +1,9 @@
+from rest_framework.relations import HyperlinkedIdentityField, HyperlinkedRelatedField
 from rest_framework.serializers import HyperlinkedModelSerializer, ModelSerializer
 from .models import Project, ToDo
 
 class ProjectModelSerializer(ModelSerializer):
+    users = HyperlinkedRelatedField(many=True, view_name='user-detail', read_only=True)
 
     class Meta:
         model = Project
@@ -11,5 +13,5 @@ class ToDoModelSerializer(ModelSerializer):
 
     class Meta:
         model = ToDo
-        fields = '__all__'
+        exclude = ('is_active',)
 
