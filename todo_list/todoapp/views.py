@@ -3,6 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.pagination import LimitOffsetPagination
 from .models import Project, ToDo
 from .serializers import ProjectModelSerializer, ToDoModelSerializer
+from rest_framework import permissions
 
 
 # Create your views here.
@@ -36,3 +37,4 @@ class ToDoModelViewSet(ModelViewSet):
     serializer_class = ToDoModelSerializer
     pagination_class = ToDoLimitOffsetPagination
     filterset_fields = ['project']
+    permission_classes = [permissions.IsAuthenticated]

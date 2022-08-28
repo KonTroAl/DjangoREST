@@ -63,3 +63,12 @@ code {
 .footer_item {
     margin-right: 10px;
 }
+
+.headers {
+    display: flex;
+    justify-content: space-between;
+}
+
+.logout_button {
+    border: medium none;
+}
