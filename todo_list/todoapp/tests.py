@@ -17,10 +17,8 @@ class TestProjectViewSet(TestCase):
         self.username = 'KonTroAl'
         self.password = 'Rjycnfynby1234567'
         self.admin = User.objects.create_superuser(self.username, 'troshenkin.k@yandex.ru', self.password)
-        self.project_dict = {'project_name': 'Project', 'users': [self.admin.id]}
+        self.project_mixer = mixer.blend(Project)
         self.project_dict_fake = {'project_name': 'Fake', 'users': [self.admin.id]}
-        self.project = Project.objects.create(project_name='Project')
-        self.project.users.add(self.admin)
         self.format = 'json'
 
     # APIRequestFactory
@@ -33,37 +31,30 @@ class TestProjectViewSet(TestCase):
 
     def test_factory_project_create_guest(self):
         factory = APIRequestFactory()
-        request = factory.post(self.url, self.project_dict, format=self.format)
+        request = factory.post(self.url, self.project_dict_fake, format=self.format)
         view = ProjectModelViewSet.as_view({'post': 'create'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    # def test_factory_project_create_admin(self):
-    #     factory = APIRequestFactory()
-    #     request = factory.post(self.url, self.project_dict, format=self.format)
-    #     force_authenticate(request, self.admin)
-    #     view = ProjectModelViewSet.as_view({'post': 'create'})
-    #     response = view(request)
-    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     #APIClient
     def test_client_project_detail(self):
         client = APIClient()
-        response = client.get(f'{self.url}{self.project.id}/')
+        response = client.get(f'{self.url}{self.project_mixer.id}/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_client_project_edit_guest(self):
         client = APIClient()
-        response = client.put(f'{self.url}{self.project.id}/',self.project_dict_fake, format=self.format)
+        response = client.put(f'{self.url}{self.project_mixer.id}/',self.project_dict_fake, format=self.format)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_client_project_edit_admin(self):
         client = APIClient()
         client.login(username=self.username, password=self.password)
-        response = client.put(f'{self.url}{self.project.id}/',self.project_dict_fake, format=self.format)
+        response = client.put(f'{self.url}{self.project_mixer.id}/',self.project_dict_fake, format=self.format)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.project.refresh_from_db()
-        self.assertEqual(self.project.project_name, self.project_dict_fake['project_name'])
+        self.project_mixer.refresh_from_db()
+        self.assertEqual(self.project_mixer.project_name, self.project_dict_fake['project_name'])
         client.logout()
 
     def tearDown(self) -> None:
@@ -77,14 +68,8 @@ class TestToDoViewSet(APITestCase):
         self.username = 'KonTroAl'
         self.password = 'Rjycnfynby1234567'
         self.admin = User.objects.create_superuser(self.username, 'troshenkin.k@yandex.ru', self.password)
-        self.project_dict = {'project_name': 'Project', 'users': [self.admin.id]}
-        self.project_dict_fake = {'project_name': 'Fake', 'users': [self.admin.id]}
-        self.project = Project.objects.create(project_name='Project')
-        self.project.users.add(self.admin)
-        self.todo = ToDo.objects.create(project=self.project, text='text', user=self.admin)
-        self.todo_dict_fake = {'project': self.project.id, 'text': 'text_2', 'user': self.admin.id}
-
-        self.format = 'json'
+        self.todo_mixer = mixer.blend(ToDo)
+        self.todo_dict_fake = {'project': self.todo_mixer.project.id, 'text': 'text_2', 'user': self.todo_mixer.user.id}
 
     def test_testcase_todo_get_list(self):
         response = self.client.get(self.url)
@@ -92,11 +77,10 @@ class TestToDoViewSet(APITestCase):
 
     def test_testcase_todo_edit(self):
         self.client.login(username=self.username, password=self.password)
-        response = self.client.put(f'{self.url}{self.todo.id}/', self.todo_dict_fake)
-        # response = self.client.get(f'{self.url}{self.todo.id}/')
+        response = self.client.put(f'{self.url}{self.todo_mixer.id}/', self.todo_dict_fake)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.todo.refresh_from_db()
-        self.assertEqual(self.todo.text, self.todo_dict_fake['text'])
+        self.todo_mixer.refresh_from_db()
+        self.assertEqual(self.todo_mixer.text, self.todo_dict_fake['text'])
 
     def tearDown(self) -> None:
         pass
