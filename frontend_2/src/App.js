@@ -19,12 +19,15 @@ class App extends React.Component {
             'projects': [],
             'todos': [],
             'token': '',
-            'auth_user' : '',
+            'auth_user': '',
+            'version': 'v2.0'
         }
     }
 
     load_data() {
         const headers = this.get_headers()
+
+        // get users
         axios.get('http://127.0.0.1:8000/api/users/', { headers })
             .then(response => {
                 const users = response.data.results
@@ -35,6 +38,7 @@ class App extends React.Component {
                 )
             }).catch(error => console.log(error))
 
+        // get projects 
         axios.get('http://127.0.0.1:8000/api/projects/', { headers })
             .then(response => {
                 const projects = response.data.results
@@ -45,6 +49,7 @@ class App extends React.Component {
                 )
             }).catch(error => console.log(error))
 
+        // get todos
         axios.get('http://127.0.0.1:8000/api/todo/', { headers })
             .then(response => {
                 const todos = response.data.results
@@ -89,7 +94,8 @@ class App extends React.Component {
 
     get_headers() {
         let headers = {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': `application/json; version=${this.state.version}`,
         }
         if (this.is_auth()) {
             headers['Authorization'] = 'Token ' + this.state.token
@@ -99,7 +105,7 @@ class App extends React.Component {
 
     logout() {
         this.set_token('')
-        this.setState({'auth_user': ''})
+        this.setState({ 'auth_user': '' })
     }
 
     componentDidMount() {
@@ -122,7 +128,7 @@ class App extends React.Component {
                                             <button class="nav-link logout_button" onClick={() => this.logout()}>Logout</button>
                                             :
                                             <Link to='/login'>
-                                              <p class="nav-link" href="#">Login</p>
+                                                <p class="nav-link" href="#">Login</p>
                                             </Link>
                                         }
                                     </li>
