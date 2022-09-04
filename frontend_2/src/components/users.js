@@ -15,6 +15,24 @@ const UserItem = ({ user }) => {
             <div>
                 {user.email}
             </div>
+            {user.is_staff ?
+                <div>
+                    True
+                </div>
+                :
+                <div>
+                    False
+                </div>
+            }
+            {user.is_superuser ?
+                <div>
+                    True
+                </div>
+                :
+                <div>
+                    False
+                </div>
+            }
         </div>
     )
 }
@@ -34,6 +52,12 @@ const UserList = ({ users }) => {
                 </div>
                 <div>
                     Email
+                </div>
+                <div>
+                    Staff
+                </div>
+                <div>
+                    SuperUser
                 </div>
             </div>
             <div class='user_list'>
