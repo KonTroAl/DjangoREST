@@ -19,6 +19,7 @@ from rest_framework.routers import DefaultRouter, SimpleRouter
 from rest_framework.authtoken import views
 from usersapp.views import UserModelViewSet
 from todoapp.views import ProjectModelViewSet, ToDoModelViewSet
+<<<<<<< HEAD
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
@@ -34,6 +35,9 @@ schema_view = get_schema_view(
     public=True,
     permission_classes=[permissions.AllowAny],
 )
+=======
+from graphene_django.views import GraphQLView
+>>>>>>> aa9b4f2 (added schema.py for GraphQL)
 
 router = DefaultRouter()
 router.register('users', UserModelViewSet)
@@ -46,5 +50,9 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api-token-auth/', views.obtain_auth_token),
 
+<<<<<<< HEAD
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema_redoc'),
+=======
+    path('graphql/', GraphQLView.as_view(graphiql=True))
+>>>>>>> aa9b4f2 (added schema.py for GraphQL)
 ]
