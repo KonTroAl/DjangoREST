@@ -7,6 +7,7 @@ import ToDoList from './components/todos';
 import Auth from './components/auth';
 import Menu from './components/menu.js';
 import Footer from './components/footer.js';
+import ProjectCreate from './components/project_create';
 import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
@@ -22,6 +23,18 @@ class App extends React.Component {
             'auth_user': '',
             'version': 'v2.0'
         }
+    }
+
+    project_create(project_name, repo_link, users) {
+        const headers = this.get_headers()
+        const data = { project_name: project_name, repo_link: repo_link, users: users }
+        axios.post('http://127.0.0.1:8000/api/projects/', data, { headers }).then(response => {
+            this.load_data()
+            alert('Success')
+        }).catch(error => {
+            console.log(error)
+            this.setState({ 'projects': [] })
+        })
     }
 
     load_data() {
@@ -142,6 +155,9 @@ class App extends React.Component {
                             <Route path='/' element={<ProjectList projects={this.state.projects} />}>
                                 <Route path=':id' element={<ProjectList projects={this.state.projects} />}>
                                 </Route>
+                            </Route>
+                            <Route path='create' element={<ProjectCreate users={this.state.users}
+                                project_create={(project_name, repo_link, users) => this.project_create(project_name, repo_link, users)} />}>
                             </Route>
                             <Route path='users' element={<UserList users={this.state.users} />}>
                             </Route>
