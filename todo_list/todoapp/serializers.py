@@ -12,8 +12,8 @@ class ProjectModelSerializer(ModelSerializer):
 
 
 class ToDoModelSerializer(ModelSerializer):
-    project = ProjectModelSerializer()
-    user = UserModelCustomSerializer()
+    # project = ProjectModelSerializer()
+    # user = UserModelCustomSerializer()
 
     class Meta:
         model = ToDo

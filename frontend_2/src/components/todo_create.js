@@ -13,7 +13,6 @@ class TodoCreate extends React.Component {
         this.setState({
             [event.target.name]: event.target.value
         })
-        console.log(this.state.text)
     }
 
     handleProjectChange(event) {
@@ -27,7 +26,6 @@ class TodoCreate extends React.Component {
         for (let i = 0; i < event.target.selectedOptions.length; i++) {
             project.push(event.target.selectedOptions.item(i).value)
         }
-        console.log(project)
         this.setState({
             'project': project[0]
         })

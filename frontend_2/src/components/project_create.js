@@ -27,7 +27,6 @@ class ProjectCreate extends React.Component {
         for (let i = 0; i < event.target.selectedOptions.length; i++) {
             users.push(event.target.selectedOptions.item(i).value)
         }
-        console.log(users)
         this.setState({
             'users': users
         })

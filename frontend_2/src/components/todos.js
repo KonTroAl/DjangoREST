@@ -1,26 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const ToDoItem = ({ todo }) => {
+const ToDoItem = ({ todo, delete_todo }) => {
     return (
         <div class='user_item'>
             <div>
-                {todo.project.project_name}
+                {todo.project}
             </div>
             <div>
                 {todo.text}
             </div>
             <div>
-                {todo.user.username}
+                {todo.user}
             </div>
             <div>
                 {todo.data}
+            </div>
+            <div>
+                <button onClick={() => delete_todo(todo.id)} type='button'>Delete ToDo</button>
             </div>
         </div>
     )
 }
 
-const ToDoList = ({ todos }) => {
+const ToDoList = ({ todos, delete_todo }) => {
     return (
         <div class='main'>
             <div class='user_headers'>
@@ -36,9 +39,11 @@ const ToDoList = ({ todos }) => {
                 <div>
                     Data
                 </div>
+                <div>
+                </div>
             </div>
             <div class='user_list'>
-                {todos.map((todo) => <ToDoItem todo={todo} />)}
+                {todos.map((todo) => <ToDoItem todo={todo} delete_todo={delete_todo} />)}
             </div>
             <div>
                 <Link to='/todo_create'>
