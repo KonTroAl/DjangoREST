@@ -40,7 +40,7 @@ schema_view = get_schema_view(
 
 router = DefaultRouter()
 router.register('users', UserModelViewSet)
-router.register('projects', ProjectModelViewSet, basename='projects')
+router.register('projects', ProjectModelViewSet)
 router.register('todo', ToDoModelViewSet)
 
 urlpatterns = [

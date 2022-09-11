@@ -24,7 +24,7 @@ const ProjectItem = ({ project, delete_project }) => {
 
 const ProjectList = ({ projects, delete_project }) => {
     let { id } = useParams();
-    let filtered_items = projects.filter((item) => item.id === id)
+    let filtered_items = projects.filter((item) => item.id == id)
     let project_items = projects
     if (filtered_items.length !== 0) {
         project_items = filtered_items
@@ -44,6 +44,10 @@ const ProjectList = ({ projects, delete_project }) => {
                 <div>
                 </div>
             </div>
+            {/* <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name='project_name' />
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form> */}
             <div class='user_list'>
                 {project_items.map((project) => <ProjectItem project={project} delete_project={delete_project} />)}
             </div>

@@ -193,7 +193,7 @@ class App extends React.Component {
                         </div>
                         <Routes>
                             <Route path='/' element={<ProjectList projects={this.state.projects} delete_project={(id) => this.project_delete(id)} />}>
-                                <Route path=':id' element={<ProjectList projects={this.state.projects} />}>
+                                <Route path=':id' element={<ProjectList projects={this.state.projects} delete_project={(id) => this.project_delete(id)} />}>
                                 </Route>
                             </Route>
                             <Route path='project_create' element={<ProjectCreate users={this.state.users}
