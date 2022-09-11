@@ -26,6 +26,21 @@ class App extends React.Component {
         }
     }
 
+    filter_project(project_name) {
+        const headers = this.get_headers()
+        axios.post('http://127.0.0.1:8000/api/projects/', null, { headers, params: { project_name } }).then(response => {
+            const projects = response.data.results
+            this.setState(
+                {
+                    'projects': projects
+                }
+            )
+        }).catch(error => {
+            console.log(error)
+            this.setState({ 'projects': [] })
+        })
+    }
+
     project_create(project_name, repo_link, users) {
         const headers = this.get_headers()
         const data = { project_name: project_name, repo_link: repo_link, users: users }
@@ -195,6 +210,8 @@ class App extends React.Component {
                             <Route path='/' element={<ProjectList projects={this.state.projects} delete_project={(id) => this.project_delete(id)} />}>
                                 <Route path=':id' element={<ProjectList projects={this.state.projects} delete_project={(id) => this.project_delete(id)} />}>
                                 </Route>
+                            </Route>
+                            <Route path='project_filter' element={<ProjectList projects={this.state.projects} delete_project={(id) => this.project_delete(id)} />}>
                             </Route>
                             <Route path='project_create' element={<ProjectCreate users={this.state.users}
                                 project_create={(project_name, repo_link, users) => this.project_create(project_name, repo_link, users)} />}>
