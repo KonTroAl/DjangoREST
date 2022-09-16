@@ -15,7 +15,7 @@ services:
       context: ./todo_list
     ports:
       - 8080:8080
-    command: /bin/sh -c "python manage.py migrate && python manage.py runserver 0.0.0.8080"
+    command: /bin/sh -c "python manage.py migrate && gunicorn library.wsgi -b 0.0.0.0:8080"
     depends_on:
       - db
   nginx:
@@ -24,3 +24,10 @@ services:
       - 8000:80
     depends_on:
       - backend
+#  frontend:
+#    build: ./frontend_2
+#    ports:
+#      - 80:80
+#    depends_on:
+#      - nginx
+
