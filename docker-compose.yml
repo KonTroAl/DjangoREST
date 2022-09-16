@@ -7,13 +7,20 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_USER: django
-      POSTGRES_PASSWORD: django
-      POSTGRES_DB: todo
-  adminer:
-    image: adminer:4.7.8-standalone
-    restart: always
+      POSTGRES_USER: 'django'
+      POSTGRES_PASSWORD: 'django'
+      POSTGRES_DB: 'todo'
+  backend:
+    build:
+      context: ./todo_list
     ports:
       - 8080:8080
+    command: /bin/sh -c "python manage.py migrate && python manage.py runserver 0.0.0.8080"
     depends_on:
       - db
+  nginx:
+    build: ./nginx
+    ports:
+      - 8000:80
+    depends_on:
+      - backend
