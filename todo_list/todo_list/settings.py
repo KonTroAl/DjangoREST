@@ -28,9 +28,11 @@ ALLOWED_HOSTS = ['*']
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    'http://192.168.1.109:3000'
+    'http://192.168.1.109:3000',
+    'http://0.0.0.0:80',
+    'http://127.0.0.1:3000'
 ]
-
+CORS_ALLOW_ALL_ORIGINS = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -86,10 +88,23 @@ WSGI_APPLICATION = 'todo_list.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# SQLite3
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# POSTGres
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'todo',
+        'PASSWORD': 'django',
+        'USER': 'django',
+        'HOST': 'db',
+        'PORT': 5432
     }
 }
 
@@ -135,7 +150,6 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 AUTH_USER_MODEL = 'usersapp.User'
-
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [

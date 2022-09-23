@@ -1,0 +1,33 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres:13.1
+    privileged: true
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: 'django'
+      POSTGRES_PASSWORD: 'django'
+      POSTGRES_DB: 'todo'
+  backend:
+    build:
+      context: ./todo_list
+    ports:
+      - 8080:8080
+    command: /bin/sh -c "python manage.py migrate && gunicorn library.wsgi -b 0.0.0.0:8080"
+    depends_on:
+      - db
+  nginx:
+    build: ./nginx
+    ports:
+      - 8000:80
+    depends_on:
+      - backend
+#  frontend:
+#    build: ./frontend_2
+#    ports:
+#      - 80:80
+#    depends_on:
+#      - nginx
+
